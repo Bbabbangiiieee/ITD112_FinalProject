@@ -1,0 +1,89 @@
+<!-- data_analysis/templates/eda.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exploratory Data Analysis</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Exploratory Data Analysis</h1>
+    <a href="{{ dataset_link }}">Download</a>
+    <!-- Display the head of the DataFrame -->
+    {{ data_head_html|safe }}
+
+    <canvas id="pieChart" width="100" height="100"></canvas>
+    <canvas id="lineChart" width="100" height="100"></canvas>
+    <canvas id="barChart" width="100" height="100"></canvas>
+    
+    
+</body>
+</html>
+
+<script>
+    // Get the data from the Django context
+    var regionLabels = {{ region_labels|safe }};
+    var regionData = {{ region_data|safe }};
+    var yearLabels = {{ year_labels|safe }};
+    var casesData = {{ cases_data|safe }};
+    var deathsData = {{ deaths_data|safe }};
+
+    // Create a pie chart using Chart.js
+    var ctx = document.getElementById('pieChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: regionLabels,
+            datasets: [{
+                data: regionData,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(255, 206, 86, 0.8)',
+                    'rgba(125, 200, 86, 0.8)',
+                    'rgba(215, 206, 86, 0.8)',
+                    // Add more colors as needed
+                ],
+            }],
+        },
+    });
+
+    var ctx = document.getElementById('lineChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: yearLabels,
+            datasets: [{
+                data: casesData,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(255, 206, 86, 0.8)',
+                    'rgba(125, 200, 86, 0.8)',
+                    'rgba(215, 206, 86, 0.8)',
+                    // Add more colors as needed
+                ],
+            }],
+        },
+    });
+
+    var ctx = document.getElementById('barChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: yearLabels,
+            datasets: [{
+                data: deathsData,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(255, 206, 86, 0.8)',
+                    'rgba(125, 200, 86, 0.8)',
+                    'rgba(215, 206, 86, 0.8)',
+                    // Add more colors as needed
+                ],
+            }],
+        },
+    });
+</script>
+
+

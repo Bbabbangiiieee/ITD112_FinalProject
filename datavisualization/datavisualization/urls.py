@@ -20,5 +20,8 @@ from dataVisualApp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index, name='index'),
+    path('', views.signIn),
+    path('postSignIn/', views.postSignIn),
+    path('uploadSubmit/', views.uploadSubmit, name='index'),
+    path('eda/', views.eda_view, name='eda'),
 ]

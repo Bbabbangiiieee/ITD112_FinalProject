@@ -1,4 +1,55 @@
 <h1>Firebase Data</h1>
 
+{{ e }}
+
 <p>Dataset Name is {{dataset_name}}</p>
-<p>Dataset File is {{dataset_file}}</p>
+<p>Dataset Link is <a href="{{dataset_link}}">Downlaod</a></p>
+
+<form action="/uploadSubmit/" method="post">
+    {% csrf_token %}
+    <p>Document Upload</p><br>
+    <input type="text" name="dataset_name" id="dataset_name">
+    <input type="text" name="url" id="url">
+    <input type="file" name="files[]" id="file">
+    <button type="button" onclick="uploadFile()">Upload Dataset</button>
+    <input type="submit" value="Submit">
+</form>
+<script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
+<script>
+    var config = {
+        "apiKey": "AIzaSyARbvQfC-4RQgzkVOuz70BBb7xbc3W_-Tc",
+        "authDomain": "itd112-finalproject.firebaseapp.com",
+        "databaseURL": "https://itd112-finalproject-default-rtdb.firebaseio.com",
+        "projectId": "itd112-finalproject",
+        "storageBucket": "itd112-finalproject.appspot.com",
+        "messagingSenderId": "286747772509",
+        "appId": "1:286747772509:web:4d988102996b65d7efefb4",
+    };
+    // Initialize Firebase
+    firebase.initializeApp(config);
+
+    function uploadFile() {
+        console.log("clicked")
+        var storage = firebase.storage();
+        var file = document.getElementById("file").files[0];
+        var storageRef = storage.ref();
+        var thisref = storageRef.child(file.name).put(file);
+        thisref.on('state_changed', function (snapshot) {
+
+            console.log("file uploaded successfully")
+        },
+            function (error) {
+                console.log(error)
+
+            },
+
+            function () {
+                thisref.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                    console.log("File available at", downloadURL);
+                    alert("File uploaded successfully");
+                });
+            });
+    }
+
+
+</script>
