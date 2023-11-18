@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>{% block title %}HYBE{% endblock %}</title>
+  {% load static %}
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.0/css/jquery.dataTables.min.css" />
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      background-image: url('{% static "image/login.jpeg" %}');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+
+    .container {
+      margin:auto;
+      background: transparent;
+      border: 1.5px solid rgba(255, 255, 0, 0.2);
+      padding: 1rem;
+      width: 350px;
+      height: 400px;
+      border-radius: 6px;
+      backdrop-filter: blur(20px);
+    }
+    .container-crud {
+      margin:auto;
+      background: transparent;
+      border: 1.5px solid rgba(255, 255, 0, 0.2);
+      padding: 2.5rem;
+      width: 450px;
+      height: 600px;
+      border-radius: 6px;
+      backdrop-filter: blur(20px);
+    }
+
+    .container-edit {
+      margin:auto;
+      background: transparent;
+      border: 1.5px solid rgba(255, 255, 0, 0.2);
+      padding: 2.5rem;
+      width: 800px;
+      height: 800px;
+      border-radius: 6px;
+      backdrop-filter: blur(20px);
+    }
+
+    .container-img {
+      margin:auto;
+      background: transparent;
+      border: 1.5px solid rgba(255, 255, 0, 0.2);
+      padding: 2.5rem;
+      width: 950px;
+      height: 100%;
+      border-radius: 6px;
+      backdrop-filter: blur(20px);
+    }
+
+    form {
+      margin: 1rem 1.5rem;
+      text-align: center;
+      color: #fff;
+    }
+
+    .input {
+      width: 100%;
+      height: 2.25rem;
+      margin: 2rem 0 0 0;
+      position: relative;
+    }
+
+    .input input {
+      width: 100%;
+      height: 100%;
+      border-radius: 1.5rem;
+      padding: 0 1rem;
+      box-sizing: border-box;
+      outline: none;
+      font-weight: 600;
+      background: transparent;
+      border: 1px solid #000;
+      color: #fff;
+    }
+
+    .floating-label {
+      font-size: 13px;
+      position: absolute;
+      top: 45%;
+      left: 1rem;
+      color: #fff;
+      transform: translateY(-50%);
+      pointer-events: none;
+      padding: 0 0.25rem;
+      transition: 0.3s ease all;
+    }
+
+    .input span {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 1rem;
+      color: #fff;
+      font-size: 1.25rem;
+    }
+
+    .input input:focus+.floating-label,
+    .input input:not(:placeholder-shown)+.floating-label {
+      top: -12px;
+      left: .5rem;
+      font-size: 11px;
+    }
+    
+
+    a {
+      text-decoration: none;
+      color: #FFFF00;
+    }
+
+    a:hover{
+      color:rgba(255,255,0,0.5);
+    }
+
+    button {
+      width: 80%;
+      height: 2.25rem;
+      margin: 1rem 0;
+      border-radius: 1rem;
+      border: none;
+      padding: 0.5rem 0;
+      font-size: 1rem;
+      font-weight: 500;
+      line-height: 1;
+      cursor: pointer;
+      background: #ffff00;
+      filter: drop-shadow(0 0 4px #333);
+    }
+
+    .btn-primary{
+      background: #ffff00;
+      color:#000;
+      border-color: #FFFF00;
+    }
+
+    .btn-primary:hover{
+      background-color: rgba(255,255,0,0.8);
+      border-color: rgba(255,255,0,0.8);
+      color:grey;
+    }
+
+    .btn-danger{
+      background: black;
+      color:#ffff00;
+      border-color: black;
+    }
+
+    .register-link {
+      font-size: 14px;
+    }
+
+    h1, h2, h3{
+      color:#FFFF00;
+    }
+
+    table{
+      width:100%;
+    }
+
+    table, th, td{
+      color: #fff;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    img{
+      width:200px;
+      height:300px;
+      margin: 5px;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    img:hover{
+      transform: scale(1.1);
+    }
+
+    .navbar {
+    position: fixed; /* Fixed position */
+    top: 0; /* Stick to the top of the viewport */
+    left: 0; /* Stick to the left side of the viewport */
+    right: 0; /* Stick to the right side of the viewport */
+    z-index: 1000; /* Adjust the z-index as needed */
+    background-color: #333; /* Set background color */
+    padding: 10px 0; /* Add padding as needed */
+    /* Add other styles such as text color, font-size, etc. */
+}
+
+.crud-label{
+  color:black;
+  display:block;
+  float:left;
+}
+
+
+  </style>
+</head>
+
+<body>
+  
+  <div style="margin:auto;">
+
+    {% load static %}
+    <main>
+      {% block content %}
+      {% endblock %}
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.datatables.net/1.12.0/js/jquery.dataTables.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('#bootstrapdatatable').DataTable({
+        "aLengthMenu": [[3, 5, 10, 25, -1], [3, 5, 10, 25, "All"]],
+        "iDisplayLength": 3
+      }
+      );
+    });
+  </script>
+</body>
+
+</html>

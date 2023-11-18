@@ -25,7 +25,7 @@ def postSignIn (request):
     email=request.POST.get('email')
     password = request.POST.get("password")
     try:
-        user = auth.sign_in_with_emdail_and_password(email, password)
+        user = auth.sign_in_with_email_and_password(email, password)
     except:
         message="Inavlid Credentials"
         return render(request, "index.html", {"message":message})
@@ -42,24 +42,30 @@ def index(request):
 
 def uploadSubmit(request):
     dataset_name = request.POST.get('dataset_name')
-    url = request.POST.get('url'),
+    url = request.POST.get('url')
 
     data = {
-        "dataset_name":dataset_name,
-        "dataset_link":url
+        "dataset_name": dataset_name,
+        "dataset_link": url
     }
-    database.child('Data').child('dataset_name').set(data["dataset_name"])
-    database.child('Data').child('dataset_link').set(data["dataset_link"])
 
-    dataset_name = database.child('Data').child('dataset_name').get().val()
-    dataset_link = database.child('Data').child('dataset_link').child('0').get().val()
-    return render(request, 'index.html',{
-        "dataset_name":dataset_name,
-        "dataset_link":dataset_link
+    # Push the data to the 'Data' node in Firebase
+    new_data_ref = database.child('Data').push(data)
+
+    # Retrieve the key of the newly added data
+    new_data_key = new_data_ref.key()
+
+    # Retrieve the data using the key
+    new_data = database.child('Data').child(new_data_key).get().val()
+
+    return render(request, 'index.html', {
+        "dataset_name": new_data["dataset_name"],
+        "dataset_link": new_data["dataset_link"]
     })
 
+
 def eda_view(request):
-    dataset_link = database.child('Data').child('dataset_link').child('0').get().val()
+    dataset_link = database.child('Data').child('-NjXtmdDMNO6L9drCTAS').child('dataset_link').get().val()
     data = pd.read_csv(dataset_link)
     data_head_html = data.head().to_html()
     
