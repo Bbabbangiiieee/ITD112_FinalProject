@@ -3,7 +3,8 @@
 {{ e }}
 
 <p>Dataset Name is {{dataset_name}}</p>
-<p>Dataset Link is {{dataset_link}} <a href="{{dataset_link}}">Downlaod</a></p>
+<p>Dataset Link is <a href="{{dataset_link}}">Downlaod</a></p>
+<a href="eda/">Link to EDA</a>
 
 <form action="/uploadSubmit/" method="post">
     {% csrf_token %}

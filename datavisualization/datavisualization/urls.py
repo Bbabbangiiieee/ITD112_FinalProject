@@ -23,5 +23,5 @@ urlpatterns = [
     path('', views.signIn),
     path('postSignIn/', views.postSignIn),
     path('uploadSubmit/', views.uploadSubmit),
-    path('eda/', views.eda_view, name='eda'),
+    path('uploadSubmit/eda/', views.eda_view, name='eda'),
 ]
