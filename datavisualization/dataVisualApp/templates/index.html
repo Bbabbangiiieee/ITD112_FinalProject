@@ -3,13 +3,13 @@
 {{ e }}
 
 <p>Dataset Name is {{dataset_name}}</p>
-<p>Dataset Link is <a href="{{dataset_link}}">Downlaod</a></p>
+<p>Dataset Link is {{dataset_link}} <a href="{{dataset_link}}">Downlaod</a></p>
 
 <form action="/uploadSubmit/" method="post">
     {% csrf_token %}
     <p>Document Upload</p><br>
     <input type="text" name="dataset_name" id="dataset_name">
-    <input type="text" name="url" id="url">
+    <input type="hidden" name="url" id="url">
     <input type="file" name="files[]" id="file">
     <button type="button" onclick="uploadFile()">Upload Dataset</button>
     <input type="submit" value="Submit">
@@ -47,6 +47,7 @@
                 thisref.snapshot.ref.getDownloadURL().then(function(downloadURL) {
                     console.log("File available at", downloadURL);
                     alert("File uploaded successfully");
+                    document.getElementById("url").value = downloadURL;
                 });
             });
     }
