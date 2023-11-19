@@ -2,12 +2,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Exploratory Data Analysis</title>
+    <title>Dengue Cases</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <h1>Exploratory Data Analysis</h1>
+    <h1>Dengue Cases</h1>
+    <a href="{% url 'project1' %}">Dengue Cases</a>
+    <a href="{% url 'project2' %}">Project 2</a>
+    <a href="{% url 'project3' %}">Project 3</a>
+    <a href="{% url 'others' %}">Others</a>
     <a href="{{ dataset_link }}">Download</a>
+    <button type="button" onclick="location.href='{% url 'logout' %}'">Logout</button>
     <!-- Display the head of the DataFrame -->
     {{ data_head_html|safe }}
 
@@ -85,5 +90,8 @@
         },
     });
 </script>
+
+
+
 
 

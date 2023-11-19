@@ -1,0 +1,20 @@
+<!-- data_analysis/templates/eda.html -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Project 2</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <h1>Project 2</h1>
+    <a href="{% url 'project1' %}">Dengue Cases</a>
+    <a href="{% url 'project2' %}">Project 2</a>
+    <a href="{% url 'project3' %}">Project 3</a>
+    <a href="{% url 'others' %}">Others</a>
+    <a href="{{ dataset_link }}">Download</a>
+    <button type="button" onclick="location.href='{% url 'logout' %}'">Logout</button>
+</body>
+
+</html>

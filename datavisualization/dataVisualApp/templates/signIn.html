@@ -1,27 +1,39 @@
 {% extends 'base.html' %}
 
+
 {% block title %}Login{% endblock %}
 
-{% block content %}
+{% block content %} 
+{% if message %}
+<script>
+    alert("{{ message }}");
+</script>
+{% endif %}
+
+{% if success %}
+<script>
+    alert("{{ success }}");
+</script>
+{% endif %}
 <div class="container">
     <form action="/postSignIn/" method="post">
-        <h1>Login</h1> {{ msg }}
+        <h1>Login</h1>
         
         <div class="input">
             {% csrf_token %}
             <!-- Username Field -->
             <div class="input">
-                <input type="text" name="username" id="id_username" placeholder=""required>
-                <label for="{{ form.username.id_for_label }}" class="floating-label">
-                    {{ form.username.label_tag }}</label>
+                <input type="text" name="email" id="email" placeholder=""required>
+                <label for="email" class="floating-label">
+                    Email</label>
                     <span class="material-icons">person</span>   
             </div>
 
             <!-- Password Field -->
             <div class="input">
-                <input type="password" name="password" id="id_password" placeholder="" required>
-                <label for="{{ form.password.id_for_label }}" class="floating-label">
-                    {{ form.password.label_tag }}
+                <input type="password" name="password" id="password" placeholder="" required>
+                <label for="password" class="floating-label">
+                    Password
                 </label>
                 <span class="material-icons">lock</span>
             </div>
@@ -29,5 +41,24 @@
             <p class=".register-link">No account? <a href=/newuser>Sign up</a></p>
         </div>
     </form>
+</div>
+
+<div class="modal fade" id="invalidCredentialsModal" tabindex="-1" role="dialog" aria-labelledby="invalidCredentialsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="invalidCredentialsModalLabel">Invalid Credentials</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Your username or password is incorrect. Please try again.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
