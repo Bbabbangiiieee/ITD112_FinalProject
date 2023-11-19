@@ -80,7 +80,7 @@ def postSignIn(request):
             })
     except:
         message = 'Invalid Credentials'
-        return render(request, "project1.html", {"message": message})
+        return render(request, "signIn.html", {"message": message})
     
     
 def log_out(request):
