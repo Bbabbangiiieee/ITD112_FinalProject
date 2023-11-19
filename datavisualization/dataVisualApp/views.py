@@ -84,8 +84,12 @@ def postSignIn(request):
     
     
 def log_out(request):
-    auth.logout(request)
-    return redirect('signIn.html')
+    try:
+        firebase_auth.current_user = None  # Sign out the user from Firebase
+        del request.session['uid']  # Remove the user ID from the session
+    except KeyError:
+        pass  # Handle the case where 'uid' doesn't exist in the session
+    return redirect('/')
 
 def uploadSubmit(request):
     dataset_name = request.POST.get('dataset_name')
