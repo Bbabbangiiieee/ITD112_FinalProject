@@ -1,10 +1,15 @@
 <!-- data_analysis/templates/eda.html -->
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Dengue Cases</title>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.0/css/jquery.dataTables.min.css" />
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
     <h1>Dengue Cases</h1>
     <a href="{% url 'project1' %}">Dengue Cases</a>
@@ -13,24 +18,67 @@
     <a href="{% url 'others' %}">Others</a>
     <a href="{{ dataset_link }}">Download</a>
     <button type="button" onclick="location.href='{% url 'logout' %}'">Logout</button>
-    <!-- Display the head of the DataFrame -->
-    {{ data_head_html|safe }}
+
+    <!--Table-->
+    <div id="data-container"></div>
 
     <canvas id="pieChart" width="100" height="100"></canvas>
     <canvas id="lineChart" width="100" height="100"></canvas>
     <canvas id="barChart" width="100" height="100"></canvas>
-    
-    
+
+
 </body>
+
 </html>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.12.0/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Display the data in a table
+        var tableHtml = '<table id="data-table" border="1">';
+        tableHtml += '<thead><tr>';
+
+        // Add column headers
+        for (var colName of {{ data_head_json.columns|safe }}) {
+            tableHtml += '<th>' + colName + '</th>';
+        }
+
+        tableHtml += '</tr></thead>';
+        tableHtml += '<tbody>';
+
+        // Add rows and data
+        for (var row of {{ data_head_json.data|safe }}) {
+            tableHtml += '<tr>';
+            for (var cell of row) {
+                tableHtml += '<td>' + cell + '</td>';
+            }
+            tableHtml += '</tr>';
+        }
+
+        tableHtml += '</tbody></table>';
+
+        // Append the table to the data-container div
+        $('#data-container').html(tableHtml);
+
+        // Initialize DataTables
+        $('#data-table').DataTable({
+            "aLengthMenu": [[10, 25, 50-1], [10, 25, 50, "All"]],
+            "iDisplayLength": 10
+        });
+    });
+</script>
+
+
 
 <script>
     // Get the data from the Django context
-    var regionLabels = {{ region_labels|safe }};
-    var regionData = {{ region_data|safe }};
-    var yearLabels = {{ year_labels|safe }};
-    var casesData = {{ cases_data|safe }};
-    var deathsData = {{ deaths_data|safe }};
+    var regionLabels = {{ region_labels| safe }};
+    var regionData = {{ region_data| safe }};
+    var yearLabels = {{ year_labels| safe }};
+    var casesData = {{ cases_data| safe }};
+    var deathsData = {{ deaths_data| safe }};
 
     // Create a pie chart using Chart.js
     var ctx = document.getElementById('pieChart').getContext('2d');
@@ -91,7 +139,12 @@
     });
 </script>
 
-
-
-
-
+<script>
+    $(document).ready(function () {
+      $('#bootstrapdatatable').DataTable({
+        "aLengthMenu": [[3, 5, 10, 25, -1], [3, 5, 10, 25, "All"]],
+        "iDisplayLength": 3
+      }
+      );
+    });
+  </script>

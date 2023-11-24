@@ -2,15 +2,17 @@ from django.shortcuts import render, redirect
 from django.contrib import auth
 import pandas as pd
 import pyrebase
+import json
+import folium
 
 config={
     "apiKey": "AIzaSyARbvQfC-4RQgzkVOuz70BBb7xbc3W_-Tc",
-  "authDomain": "itd112-finalproject.firebaseapp.com",
-  "databaseURL": "https://itd112-finalproject-default-rtdb.firebaseio.com",
-  "projectId": "itd112-finalproject",
-  "storageBucket": "itd112-finalproject.appspot.com",
-  "messagingSenderId": "286747772509",
-  "appId": "1:286747772509:web:4d988102996b65d7efefb4",
+    "authDomain": "itd112-finalproject.firebaseapp.com",
+    "databaseURL": "https://itd112-finalproject-default-rtdb.firebaseio.com",
+    "projectId": "itd112-finalproject",
+    "storageBucket": "itd112-finalproject.appspot.com",
+    "messagingSenderId": "286747772509",
+    "appId": "1:286747772509:web:4d988102996b65d7efefb4",
 }
 firebase=pyrebase.initialize_app(config)
 firebase_auth = firebase.auth()
@@ -119,7 +121,7 @@ def uploadSubmit(request):
 def project1(request):
     dataset_link = database.child('Data').child('-NjXtmdDMNO6L9drCTAS').child('dataset_link').get().val()
     data = pd.read_csv(dataset_link)
-    data_head_html = data.head(100).to_html()
+    data_head_json = data.head(100).to_json(orient='split')
     
     # Creating Pie Chart
     region_cases = data.groupby('Region')['cases'].sum()
@@ -143,8 +145,7 @@ def project1(request):
     deaths_data = list(deaths_per_year)
     
     return render(request, 'project1.html', {
-        'data_head_html': data_head_html,
-        'dataset_link':dataset_link,
+        'data_head_json': json.loads(data_head_json),
         'region_labels': region_labels,
         'region_data': region_data,
         'year_labels': year_labels,
@@ -154,6 +155,45 @@ def project1(request):
 
 def project2(request):
     return render(request, 'project2.html')
+
+def color_for_aqi_category(category):
+    colors = {
+        "Good": "blue",
+        "Moderate": "yellow",
+        "Unhealthy": "purple",
+        "Very Unhealthy": "red",
+        "Unhealthy for Sensitive Groups": "pink",
+        "Hazardous": "brown"
+    }
+    return colors.get(category, "black") # Default to black if category not found
+
+def project2(request):
+    # Fetching the data
+    dataset_link = database.child('Data').child('-NjghfjlG4Akrvx2ZLHf').child('dataset_link').get().val()
+    data = pd.read_csv(dataset_link)
+    data_head_json = data.head(100).to_json(orient='split')
+    # Create a new map object
+    map = folium.Map(location=[data['lat'].mean(), data['lng'].mean()], zoom_start=2)
+    # Add markers to the map
+    for _, row in data.iterrows():
+        folium.CircleMarker(
+        location=[row['lat'], row['lng']],
+        radius=0.5,
+        color=color_for_aqi_category(row['AQI Category']),
+        fill=True,
+        fill_color=color_for_aqi_category(row['AQI Category']),
+        fill_opacity=0.7
+    ).add_to(map)
+    # Render the map to an HTML string
+    map_html = map._repr_html_()
+    context = {
+    }
+    return render(request, 'project2.html', {
+    'map_html': map_html,
+    'data_head_json': json.loads(data_head_json),
+    'dataset_link': dataset_link,
+    })
+
 
 def project3(request):
     return render(request, 'project3.html')

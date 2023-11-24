@@ -1,20 +1,137 @@
-<!-- data_analysis/templates/eda.html -->
 <!DOCTYPE html>
 <html>
 
 <head>
-    <title>Project 2</title>
+    <title>AQI Map</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.0/css/jquery.dataTables.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        #map-container {
+            position: relative;
+        }
+
+        #legend {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background-color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            line-height: 1.5;
+            z-index: 1000;
+            /* Ensure it's above the map */
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .legend-color {
+            width: 6px;
+            height: 6px;
+            margin-right: 5px;
+            border: 1px solid #000;
+            border-radius: 50%;
+        }
+
+        .analysis-section {
+            margin-top: 20px;
+        }
+
+        #map-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+            width: 80%;
+            /* Adjust as needed */
+            margin: auto !important;
+            display: block;
+        }
+
+        #map-container iframe {
+            width: 50%;
+            /* Adjust the width as needed */
+            height: 50%;
+            /* Adjust height as needed */
+            border: none;
+            /* Optional, removes the border */
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Project 2</h1>
+    <h1>World Air Quality Index</h1>
     <a href="{% url 'project1' %}">Dengue Cases</a>
     <a href="{% url 'project2' %}">Project 2</a>
     <a href="{% url 'project3' %}">Project 3</a>
     <a href="{% url 'others' %}">Others</a>
     <a href="{{ dataset_link }}">Download</a>
-    <button type="button" onclick="location.href='{% url 'logout' %}'">Logout</button>
+    
+    <!--Table-->
+    <div id="data-container"></div>
+
+    <!-- Map and Legend inside a container -->
+    <div id="map-container">
+        {{ map_html|safe }}
+        <div id="legend">
+            <h3> AQI Category: </h3>
+            <div class="legend-item"><span class="legend-color" style="background-color:
+blue;"></span>Good</div>
+            <div class="legend-item"><span class="legend-color" style="background-color:
+yellow;"></span>Moderate</div>
+            <div class="legend-item"><span class="legend-color" style="background-color:
+purple;"></span>Unhealthy</div>
+            <div class="legend-item"><span class="legend-color" style="background-color:
+red;"></span>Very Unhealthy</div>
+            <div class="legend-item"><span class="legend-color" style="background-color:
+pink;"></span>Unhealthy for Sensitive Groups</div>
+            <div class="legend-item"><span class="legend-color" style="background-color:
+brown;"></span>Hazardous</div>
+        </div>
 </body>
 
 </html>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.12.0/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Display the data in a table
+        var tableHtml = '<table id="data-table" border="1">';
+        tableHtml += '<thead><tr>';
+
+        // Add column headers
+        for (var colName of {{ data_head_json.columns|safe }}) {
+            tableHtml += '<th>' + colName + '</th>';
+        }
+
+        tableHtml += '</tr></thead>';
+        tableHtml += '<tbody>';
+
+        // Add rows and data
+        for (var row of {{ data_head_json.data|safe }}) {
+            tableHtml += '<tr>';
+            for (var cell of row) {
+                tableHtml += '<td>' + cell + '</td>';
+            }
+            tableHtml += '</tr>';
+        }
+
+        tableHtml += '</tbody></table>';
+
+        // Append the table to the data-container div
+        $('#data-container').html(tableHtml);
+
+        // Initialize DataTables
+        $('#data-table').DataTable({
+            "aLengthMenu": [[10, 25, 50-1], [10, 25, 50, "All"]],
+            "iDisplayLength": 10
+        });
+    });
+</script>
