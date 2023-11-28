@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import auth
 import pandas as pd
 import pyrebase
+import json
 
 config={
     "apiKey": "AIzaSyARbvQfC-4RQgzkVOuz70BBb7xbc3W_-Tc",
@@ -46,7 +47,7 @@ def postSignIn(request):
         request.session['uid']=str(session_id)
         dataset_link = database.child('Data').child('-NjXtmdDMNO6L9drCTAS').child('dataset_link').get().val()
         data = pd.read_csv(dataset_link)
-        data_head_html = data.head(100).to_html()
+        data_head_json = data.head(100).to_json(orient='split')
         
         # Creating Pie Chart
         region_cases = data.groupby('Region')['cases'].sum()
@@ -70,22 +71,26 @@ def postSignIn(request):
         deaths_data = list(deaths_per_year)
         
         return render(request, 'project1.html', {
-            'data_head_html': data_head_html,
-            'dataset_link':dataset_link,
-            'region_labels': region_labels,
-            'region_data': region_data,
-            'year_labels': year_labels,
-            'cases_data': cases_data,
-            'deaths_data': deaths_data
+        'data_head_json': json.loads(data_head_json),
+        'dataset_link': dataset_link,
+        'region_labels': region_labels,
+        'region_data': region_data,
+        'year_labels': year_labels,
+        'cases_data': cases_data,
+        'deaths_data': deaths_data
             })
     except:
         message = 'Invalid Credentials'
-        return render(request, "project1.html", {"message": message})
+        return render(request, "signIn.html", {"message": message})
     
     
 def log_out(request):
-    auth.logout(request)
-    return redirect('signIn.html')
+    try:
+        firebase_auth.current_user = None  # Sign out the user from Firebase
+        del request.session['uid']  # Remove the user ID from the session
+    except KeyError:
+        pass  # Handle the case where 'uid' doesn't exist in the session
+    return redirect('/')
 
 def uploadSubmit(request):
     dataset_name = request.POST.get('dataset_name')
@@ -115,7 +120,7 @@ def uploadSubmit(request):
 def project1(request):
     dataset_link = database.child('Data').child('-NjXtmdDMNO6L9drCTAS').child('dataset_link').get().val()
     data = pd.read_csv(dataset_link)
-    data_head_html = data.head(100).to_html()
+    data_head_json = data.head(100).to_json(orient='split')
     
     # Creating Pie Chart
     region_cases = data.groupby('Region')['cases'].sum()
@@ -139,8 +144,8 @@ def project1(request):
     deaths_data = list(deaths_per_year)
     
     return render(request, 'project1.html', {
-        'data_head_html': data_head_html,
-        'dataset_link':dataset_link,
+        'data_head_json': json.loads(data_head_json),
+        'dataset_link': dataset_link,
         'region_labels': region_labels,
         'region_data': region_data,
         'year_labels': year_labels,
