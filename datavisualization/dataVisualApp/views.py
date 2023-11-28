@@ -146,6 +146,7 @@ def project1(request):
     
     return render(request, 'project1.html', {
         'data_head_json': json.loads(data_head_json),
+        'dataset_link': dataset_link,
         'region_labels': region_labels,
         'region_data': region_data,
         'year_labels': year_labels,
