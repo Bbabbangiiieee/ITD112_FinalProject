@@ -1,0 +1,68 @@
+<!-- data_analysis/templates/eda.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Others</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Others</h1>
+    <a href="{% url 'project1' %}">Dengue Cases</a>
+    <a href="{% url 'project2' %}">Project 2</a>
+    <a href="{% url 'project3' %}">Project 3</a>
+    <a href="{% url 'others' %}">Others</a>
+    <a href="{{ dataset_link }}">Download</a>
+    <button type="button" onclick="location.href='{% url 'logout' %}'">Logout</button>
+
+
+<form action="/uploadSubmit/" method="post">
+    {% csrf_token %}
+    <p>Document Upload</p><br>
+    <input type="text" name="dataset_name" id="dataset_name">
+    <input type="hidden" name="url" id="url">
+    <input type="file" name="files[]" id="file">
+    <button type="button" onclick="uploadFile()">Upload Dataset</button>
+    <input type="submit" value="Submit">
+
+    {{ data_head_html|safe }}
+</form>
+<script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
+<script>
+    var config = {
+        "apiKey": "AIzaSyARbvQfC-4RQgzkVOuz70BBb7xbc3W_-Tc",
+        "authDomain": "itd112-finalproject.firebaseapp.com",
+        "databaseURL": "https://itd112-finalproject-default-rtdb.firebaseio.com",
+        "projectId": "itd112-finalproject",
+        "storageBucket": "itd112-finalproject.appspot.com",
+        "messagingSenderId": "286747772509",
+        "appId": "1:286747772509:web:4d988102996b65d7efefb4",
+    };
+    // Initialize Firebase
+    firebase.initializeApp(config);
+
+    function uploadFile() {
+        console.log("clicked")
+        var storage = firebase.storage();
+        var file = document.getElementById("file").files[0];
+        var storageRef = storage.ref();
+        var thisref = storageRef.child(file.name).put(file);
+        thisref.on('state_changed', function (snapshot) {
+
+            console.log("file uploaded successfully")
+        },
+            function (error) {
+                console.log(error)
+
+            },
+
+            function () {
+                thisref.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                    console.log("File available at", downloadURL);
+                    alert("File uploaded successfully");
+                    document.getElementById("url").value = downloadURL;
+                });
+            });
+    }
+
+
+</script>
