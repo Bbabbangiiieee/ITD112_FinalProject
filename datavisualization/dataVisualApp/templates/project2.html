@@ -1,115 +1,137 @@
-{% load static %}
-<!-- data_analysis/templates/eda.html -->
 <!DOCTYPE html>
-
 <html>
+
 <head>
-    <title>Dengue Cases</title>
+    <title>AQI Map</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.0/css/jquery.dataTables.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{% static 'image/base.css' %}">
+    <style>
+        #map-container {
+            position: relative;
+        }
 
+        #legend {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background-color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            line-height: 1.5;
+            z-index: 1000;
+            /* Ensure it's above the map */
+        }
 
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .legend-color {
+            width: 6px;
+            height: 6px;
+            margin-right: 5px;
+            border: 1px solid #000;
+            border-radius: 50%;
+        }
+
+        .analysis-section {
+            margin-top: 20px;
+        }
+
+        #map-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+            width: 80%;
+            /* Adjust as needed */
+            margin: auto !important;
+            display: block;
+        }
+
+        #map-container iframe {
+            width: 50%;
+            /* Adjust the width as needed */
+            height: 50%;
+            /* Adjust height as needed */
+            border: none;
+            /* Optional, removes the border */
+        }
+    </style>
 </head>
 
 <body>
-    <header class="header">
-        
-    </header>
+    <h1>World Air Quality Index</h1>
+    <a href="{% url 'project1' %}">Dengue Cases</a>
+    <a href="{% url 'project2' %}">Project 2</a>
+    <a href="{% url 'project3' %}">Project 3</a>
+    <a href="{% url 'others' %}">Others</a>
+    <a href="{{ dataset_link }}">Download</a>
+    
+    <!--Table-->
+    <div id="data-container"></div>
 
-    <div class="sidebar">
-        <div class="logo-details">
-            <i class='bx bxs-dice-3 icon' ></i>
-            <div class="logo_name">Group 3</div>
-            <i class='bx bx-menu' id="btn" ></i>
+    <!-- Map and Legend inside a container -->
+    <div id="map-container">
+        {{ map_html|safe }}
+        <div id="legend">
+            <h3> AQI Category: </h3>
+            <div class="legend-item"><span class="legend-color" style="background-color:
+blue;"></span>Good</div>
+            <div class="legend-item"><span class="legend-color" style="background-color:
+yellow;"></span>Moderate</div>
+            <div class="legend-item"><span class="legend-color" style="background-color:
+purple;"></span>Unhealthy</div>
+            <div class="legend-item"><span class="legend-color" style="background-color:
+red;"></span>Very Unhealthy</div>
+            <div class="legend-item"><span class="legend-color" style="background-color:
+pink;"></span>Unhealthy for Sensitive Groups</div>
+            <div class="legend-item"><span class="legend-color" style="background-color:
+brown;"></span>Hazardous</div>
         </div>
-
-        <ul class="nav-list">
-          <li>
-            <a href="{% url 'project1' %}">
-            <i class='bx bx-plus-medical'></i>
-              <span class="links_name">Dengue Case</span>
-            </a>
-             <span class="tooltip">Dengue Case</span>
-          </li>
-
-          <li>
-            <a href="{% url 'project2' %}">
-            <i class='bx bx-map-alt' ></i>
-             <span class="links_name">Geo Dataset</span>
-           </a>
-           <span class="tooltip">Geo Dataset</span>
-         </li>
-
-         <li>
-            <a href="{% url 'project3' %}">
-             <i class='bx bx-chat' ></i>
-             <span class="links_name">Rawr</span>
-           </a>
-           <span class="tooltip">Rawr</span>
-         </li>
-         <li>
-            <a href="{% url 'others' %}">
-                <i class='bx bx-upload'></i>
-             <span class="links_name">Upload</span>
-           </a>
-           <span class="tooltip">Upload</span>
-         </li>
-         
-       <!-- ... your other HTML code ... -->
-<li class="profile">
-    <div class="profile-details">
-        <i class='bx bxs-user-circle'></i>
-        
-            <div class="name">{{ user.email }}</div>
-           
-        
-    </div>
-    <button type="button" onclick="location.href='{% url 'logout' %}'">
-        <i class='bx bx-log-out' id="log_out"></i>Logout
-    </button>
-</li>
-<!-- ... your other HTML code ... -->
-
-        </ul>
-      </div>
-    </div>
-
-
-
-    <main class="main">
-        <div class="card">
-            
-        </div>
-        <div class="card">
-            
-        </div> 
-    </main>
-
-    <script>       
-  let sidebar = document.querySelector(".sidebar");
-  let closeBtn = document.querySelector("#btn");
- 
-  closeBtn.addEventListener("click", ()=>{
-    sidebar.classList.toggle("open");
-    menuBtnChange();//calling the function(optional)
-  });
-  searchBtn.addEventListener("click", ()=>{ // Sidebar open when you click on the search iocn
-    sidebar.classList.toggle("open");
-    menuBtnChange(); //calling the function(optional)
-  });
-  // following are the code to change sidebar button(optional)
-  function menuBtnChange() {
-   if(sidebar.classList.contains("open")){
-     closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");//replacing the iocns class
-   }else {
-     closeBtn.classList.replace("bx-menu-alt-right","bx-menu");//replacing the iocns class
-   }
-  }
-    </script>
 </body>
+
 </html>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.12.0/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // Display the data in a table
+        var tableHtml = '<table id="data-table" border="1">';
+        tableHtml += '<thead><tr>';
+
+        // Add column headers
+        for (var colName of {{ data_head_json.columns|safe }}) {
+            tableHtml += '<th>' + colName + '</th>';
+        }
+
+        tableHtml += '</tr></thead>';
+        tableHtml += '<tbody>';
+
+        // Add rows and data
+        for (var row of {{ data_head_json.data|safe }}) {
+            tableHtml += '<tr>';
+            for (var cell of row) {
+                tableHtml += '<td>' + cell + '</td>';
+            }
+            tableHtml += '</tr>';
+        }
+
+        tableHtml += '</tbody></table>';
+
+        // Append the table to the data-container div
+        $('#data-container').html(tableHtml);
+
+        // Initialize DataTables
+        $('#data-table').DataTable({
+            "aLengthMenu": [[10, 25, 50-1], [10, 25, 50, "All"]],
+            "iDisplayLength": 10
+        });
+    });
+</script>
