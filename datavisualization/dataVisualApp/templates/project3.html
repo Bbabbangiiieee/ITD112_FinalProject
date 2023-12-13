@@ -1,11 +1,13 @@
-<!-- data_analysis/templates/eda.html -->
+{% load static %}
+
 <!DOCTYPE html>
+
 <html>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dengue Cases</title>
+    <title>Unenployment Rate</title>
     <link rel="stylesheet" type="text/css" href="{% static 'image/base.css' %}">
     <link rel="stylesheet" type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
@@ -14,13 +16,30 @@
         href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css">
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <!-- Chart.js -->
-    <title>Project 3</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+<style>
+body {
+  height: 100vh;
+  background: url('{% static "image/pbg.jpg" %}');
+  background-size: cover; /* or contain */
+  background-position: center;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: background-size 0.5s ease-in-out; /* Add a smooth transition */
+}
 
+/* Add hover effect to zoom in on hover */
+body:hover {
+  background-size: 110%; /* Adjust the zoom level as needed */
+}
+
+</style>
 <body>
     <header class="header">
-      
+
     </header>
 
     <div class="sidebar">
@@ -50,9 +69,9 @@
             <li>
                 <a href="{% url 'project3' %}">
                     <i class='bx bx-chat'></i>
-                    <span class="links_name">Rawr</span>
+                    <span class="links_name">Unemployment Rate</span>
                 </a>
-                <span class="tooltip">Rawr</span>
+                <span class="tooltip">Unemployment Rate</span>
             </li>
             <li>
                 <a href="{% url 'others' %}">
@@ -79,54 +98,146 @@
 
         </ul>
     </div>
+    <main class="main3">
+        
+    <div class="cardp3">
+        
+        <h1> Unemployment Rate in the Philippines in percentage</h1>
+        <canvas id="lineChart" width="100" height="60"></canvas>
+        <div class="cardp3e">
+            <div class="narration">
+                <p>Youth unemployment refers to the share of the labor force ages 15-24 within Philippines. Such youth within those ages are without work but are available for and seeking employment. The data starts at 1991, and has been last updated at 2022. </p>
+            </div>
+        </div>
     </div>
 
-    <main class="main">
-        <div class="card">
-            
-        </div>
+    
 
-        <div class="card">
-            
+    <div class="cardp3">
+        <h1> Unemployment Rate in the Philippines in thousands</h1>
+        <canvas id="lineChart2" width="100" height="50"></canvas>
+        <div class="cardp3e">
+            <div class="narration">
+                <p>Youth unemployment refers to the share of the labor force ages 15-24 within Philippines. Such youth within those ages are without work but are available for and seeking employment. 
+                    The data starts at 1991, and has been last updated at 2022. </p>
+            </div>
         </div>
+</div>
+<button id="nextButton">Next Card</button>
+<button id="arrow3" onclick="scrollToMain3()">
+    <div class="butt">View Datatable</div>
+</button>
 
-        <div class="card">
+    </main>
+
+    <main id="mainp3m3" class="mainp3m3">
+
+
+        <div class="card3p3">
           
+            <table id="example" class="table table-striped" style="width: 100%;">
+                
+                <!--   {{ data_head_html|safe }}-->
+                   
+               </table>
+               <button class="button-17" role="button"><a href="{{ dataset_link }}">Download</a></button>
         </div>
-
-
+       
+    
+    
     </main>
+  </body>
 
-    <main id="main2" class="2main">
-        <div class="card">
-            
-        </div>
+  </html>
 
 
-    </main>
-</body>
-
-</html>
-<script>
-  let sidebar = document.querySelector(".sidebar");
-    let closeBtn = document.querySelector("#btn");
-
-    closeBtn.addEventListener("click", () => {
-        sidebar.classList.toggle("open");
-        menuBtnChange();//calling the function(optional)
-    });
-    searchBtn.addEventListener("click", () => { // Sidebar open when you click on the search iocn
-        sidebar.classList.toggle("open");
-        menuBtnChange(); //calling the function(optional)
-    });
-    // following are the code to change sidebar button(optional)
-    function menuBtnChange() {
-        if (sidebar.classList.contains("open")) {
-            closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");//replacing the iocns class
-        } else {
-            closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");//replacing the iocns class
-        }
+    <script>
+  
+  function scrollToMain3() {
+        var main2Element = document.getElementById('mainp3m3');
+        main2Element.scrollIntoView({ behavior: 'smooth' });
     }
-</script>
+  let sidebar = document.querySelector(".sidebar");
+  let closeBtn = document.querySelector("#btn");
+ 
+  closeBtn.addEventListener("click", ()=>{
+    sidebar.classList.toggle("open");
+    menuBtnChange();//calling the function(optional)
+  });
+  searchBtn.addEventListener("click", ()=>{ // Sidebar open when you click on the search iocn
+    sidebar.classList.toggle("open");
+    menuBtnChange(); //calling the function(optional)
+  });
+  // following are the code to change sidebar button(optional)
+  function menuBtnChange() {
+   if(sidebar.classList.contains("open")){
+     closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");//replacing the iocns class
+   }else {
+     closeBtn.classList.replace("bx-menu-alt-right","bx-menu");//replacing the iocns class
+   }
+  }
+    </script>
 
-   
+    <script>
+
+    // Get the data from the Django context
+    var yearLabels = {{ year_labels| safe }};
+    var unenploymentratedata = {{ unenployment_rate_data| safe }};
+
+    var yearLabels2 = {{ year_labels2| safe }};
+    var unenploymentinthousandsdata = {{ unemployment_in_thousands_data| safe }};
+    console.log(yearLabels2)
+    console.log(unenploymentinthousandsdata)
+
+
+    var lineCtx = document.getElementById('lineChart').getContext('2d');
+    var lineChart = new Chart(lineCtx, {
+        type: 'line',
+        data: {
+            labels: yearLabels,
+            datasets: [{
+                label: 'Rate of Unenployment in the Philippines Per Year',
+                data: unenploymentratedata,
+            }],
+        },
+    });
+
+    var lineCtx = document.getElementById('lineChart2').getContext('2d');
+    var lineChart = new Chart(lineCtx, {
+        type: 'line',
+        data: {
+            labels: yearLabels2,
+            datasets: [{
+                label: 'Unenployment in the Philippines Per Year in thousands',
+                data: unenploymentinthousandsdata,
+            }],
+        },
+    });
+
+
+    </script>
+    <script>
+   document.addEventListener("DOMContentLoaded", function() {
+    const cards = document.querySelectorAll('.cardp3');
+    let currentCardIndex = 0;
+
+    function showNextCard() {
+      cards[currentCardIndex].style.display = 'none';
+      currentCardIndex = (currentCardIndex + 1) % cards.length;
+      cards[currentCardIndex].style.display = 'block';
+    }
+
+    function showNextCardButtonClick() {
+      showNextCard();
+    }
+
+    // Initial display
+    cards[currentCardIndex].style.display = 'block';
+
+    // Add event listener to the button
+    const nextButton = document.getElementById('nextButton');
+    nextButton.addEventListener('click', showNextCardButtonClick);
+  });
+      </script>
+</body>
+</html>

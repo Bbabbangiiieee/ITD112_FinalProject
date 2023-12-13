@@ -1,31 +1,119 @@
+{% load static %}
 <!-- data_analysis/templates/eda.html -->
 <!DOCTYPE html>
+
 <html>
+
 <head>
-    <title>Others</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dengue Cases</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'image/base.css' %}">
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.0/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+<style>
+    body{
+    height: 100vh;
+    background: url('{% static "image/bgdengue.jpg" %}')    ;  
+    font-family: "Poppins" , sans-serif;
+    }
+</style>
 <body>
-    <h1>Others</h1>
-    <a href="{% url 'project1' %}">Dengue Cases</a>
-    <a href="{% url 'project2' %}">Project 2</a>
-    <a href="{% url 'project3' %}">Project 3</a>
-    <a href="{% url 'others' %}">Others</a>
-    <a href="{{ dataset_link }}">Download</a>
-    <button type="button" onclick="location.href='{% url 'logout' %}'">Logout</button>
+    <header class="header">
 
+    </header>
+
+    <div class="sidebar">
+        <div class="logo-details">
+            <i class='bx bxs-dice-3 icon'></i>
+            <div class="logo_name">Group 3</div>
+            <i class='bx bx-menu' id="btn"></i>
+        </div>
+
+        <ul class="nav-list">
+            <li>
+                <a href="{% url 'project1' %}">
+                    <i class='bx bx-plus-medical'></i>
+                    <span class="links_name">Dengue Case</span>
+                </a>
+                <span class="tooltip">Dengue Case</span>
+            </li>
+
+            <li>
+                <a href="{% url 'project2' %}">
+                    <i class='bx bx-wind'></i>
+                    <span class="links_name">Air Quality</span>
+                </a>
+                <span class="tooltip">Air Quality</span>
+            </li>
+
+            <li>
+                <a href="{% url 'project3' %}">
+                    <i class='bx bx-chat'></i>
+                    <span class="links_name">Unemployment Data</span>
+                </a>
+                <span class="tooltip">Unemployment Data</span>
+            </li>
+            <li>
+                <a href="{% url 'others' %}">
+                    <i class='bx bx-upload'></i>
+                    <span class="links_name">Upload</span>
+                </a>
+                <span class="tooltip">Upload</span>
+            </li>
+
+            <!-- ... your other HTML code ... -->
+            <li class="profile">
+                <div class="profile-details">
+                    <i class='bx bxs-user-circle'></i>
+
+                    <div class="name">{{ user.email }}</div>
+
+
+                </div>
+                <button type="button" onclick="location.href='{% url 'logout' %}'">
+                    <i class='bx bx-log-out' id="log_out"></i>Logout
+                </button>
+            </li>
+            <!-- ... your other HTML code ... -->
+
+        </ul>
+    </div>
+
+    <main class="main">
+       <div class="cont"> 
+        <div class="text">
+            Document Upload
+        </div>
 
 <form action="/uploadSubmit/" method="post">
     {% csrf_token %}
-    <p>Document Upload</p><br>
+   
+    <label for="dataset_name">Dataset Name:</label>
     <input type="text" name="dataset_name" id="dataset_name">
+
+    <label for="url"></label>
     <input type="hidden" name="url" id="url">
+
+    <label for="file"></label>
     <input type="file" name="files[]" id="file">
+
     <button type="button" onclick="uploadFile()">Upload Dataset</button>
     <input type="submit" value="Submit">
 
     {{ data_head_html|safe }}
 </form>
+
+</div>
+</main>
+
 <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
 <script>
     var config = {
@@ -64,5 +152,24 @@
             });
     }
 
+    let sidebar = document.querySelector(".sidebar");
+    let closeBtn = document.querySelector("#btn");
+
+    closeBtn.addEventListener("click", () => {
+        sidebar.classList.toggle("open");
+        menuBtnChange();//calling the function(optional)
+    });
+    searchBtn.addEventListener("click", () => { // Sidebar open when you click on the search iocn
+        sidebar.classList.toggle("open");
+        menuBtnChange(); //calling the function(optional)
+    });
+    // following are the code to change sidebar button(optional)
+    function menuBtnChange() {
+        if (sidebar.classList.contains("open")) {
+            closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");//replacing the iocns class
+        } else {
+            closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");//replacing the iocns class
+        }
+    }
 
 </script>

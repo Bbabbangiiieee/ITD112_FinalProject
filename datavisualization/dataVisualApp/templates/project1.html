@@ -18,6 +18,26 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+<style>
+    body{
+    height: 100vh;
+    background: url('{% static "image/bgdengue.jpg" %}')    ;  
+    font-family: "Poppins" , sans-serif;
+    margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 60px 1fr;
+    grid-template-areas: 
+    "side header"
+    "side main"
+    ;
+}
+
+body:hover {
+  background-size: 110%; /* Adjust the zoom level as needed */
+}
+</style>
 
 <body>
     <header class="header">
@@ -51,9 +71,9 @@
             <li>
                 <a href="{% url 'project3' %}">
                     <i class='bx bx-chat'></i>
-                    <span class="links_name">Rawr</span>
+                    <span class="links_name">Unemployment Data</span>
                 </a>
-                <span class="tooltip">Rawr</span>
+                <span class="tooltip">Unemployment Data</span>
             </li>
             <li>
                 <a href="{% url 'others' %}">
@@ -79,7 +99,6 @@
             <!-- ... your other HTML code ... -->
 
         </ul>
-    </div>
     </div>
 
     <main class="main">
@@ -125,15 +144,9 @@
 
         <div class="card">
             <button class="button-17" role="button"><a href="{{ dataset_link }}">Download</a></button>
-           <div id="data-container"></div>
-        </div>
-        <div id="data-container"></div>
-        <!-- Corrected table structure -->
-
-
-        <!--- <div class="card">
-                <a href="{{ dataset_link }}">Download</a>
-            </div>-->
+           <div id="data-container">
+            <thead><th></th></thead>
+           </div>
         </div>
 
 
@@ -304,11 +317,3 @@
 
 
 </script>
-<script>
-    $(document).ready(function () {
-        $('#bootstrapdatatable').DataTable({
-            "aLengthMenu": [[3, 5, 10, 25, -1], [3, 5, 10, 25, "All"]],
-            "iDisplayLength": 3
-        }
-        );
-    });

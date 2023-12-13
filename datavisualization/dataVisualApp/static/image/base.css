@@ -1,17 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
-body{
-    height: 100vh;
-    font-family: "Poppins" , sans-serif;
-    margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 60px 1fr;
-    grid-template-areas: 
-    "side header"
-    "side main"
-    ;
-}
+
 
 .header {  
     background-color: #fff;
@@ -27,7 +15,7 @@ body{
     width: calc(100% - 70px);
     transition: all 0.5s ease;
     z-index: 2;
-    background-image: url('{% static "image/bg.jpg" %}');
+    
 
     padding: 25px 25px 25px 25px;                               
     
@@ -44,6 +32,7 @@ body{
     ;
     gap: 20px;
 }
+
 
 
 #main2 {
@@ -315,6 +304,11 @@ body{
     left: 250px;
     width: calc(100% - 250px);
   }
+
+  .sidebar.open ~ .main3 {
+    left: 250px;
+    width: calc(100% - 250px);
+}
  
   @media (max-width: 420px) {
     .sidebar li .tooltip{
@@ -353,11 +347,11 @@ p {
  margin-bottom: 0;
 }
 .card{
-   background-color: 456b;
+  background-color: rgba(234, 237, 245, 0.88) !important; 
    margin-top: 5px;
    border-radius: 10px; 
    position: relative;
-   overflow: hidden;  
+   overflow: hidden;    
 }
 
 a {
@@ -367,7 +361,7 @@ a {
 
 
 .narration {
-    background-color: #eaeaea; /* Light gray background */
+    background-color: #fcadb0;
     padding: 15px;
     border-radius: 8px;
     margin-top: 10px;
@@ -405,7 +399,252 @@ a {
     }
 }
 
+#data-container {
+  background-color: #a5cce6;
+  overflow-x: auto; /* or overflow-x: scroll; */
+    white-space: nowrap; 
 
+
+}
+
+th {
+  background-color: #fcadb0; /* Set your desired header color */
+  color: white; /* Set text color to make it visible on the background */
+  padding: 10px; /* Add padding for better appearance */
+}
+
+/*PROJECT 2*/
+
+.mainp2{
+  position: relative;
+  min-height: 100vh;
+  top: 0;
+  bottom: 0;
+  left: 78px;
+  width: calc(100% - 70px);
+  transition: all 0.5s ease;
+  z-index: 2;
+  margin: 0;
+
+  padding: 0px 0px 0px 0px;                               
+  
+  
+  grid-area: main;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: 
+  "c1"
+  
+  
+  ;
+  gap: 10px;
+}
+
+#mainp2m2{
+  position: relative;
+  min-height: 100vh;
+  top: 0;
+  bottom: 0;
+  left: 78px;
+  width: calc(100% - 70px);
+  transition: all 0.5s ease;
+  z-index: 2;
+  margin: 0;
+
+  padding: 25px 50px 50px 50px;                               
+  
+  
+  grid-area: main;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: 
+  "c1"
+  
+  
+  ;
+  gap: 10px;
+}
+
+.card2 {
+  background-color:#AAD3DF !important;
+  margin: 0;
+  top: -20px;
+  padding: 0;
+  border-radius: none;
+  position: relative;
+  overflow: hidden;
+}
+
+#map-container {
+  position: relative;
+  padding: 0;
+  background-color:#AAD3DF !important;
+  margin: 0 !important;
+  width: 100% !important; /* Set the width to 100% */
+  height: 100vh; /* Set the height to 100% */
+}
+
+.card2 canvas,
+  .narration p {
+    margin: 0;
+  }
+
+.card2:nth-child(1) {
+    grid-area: c1;
+}
+
+.card2:nth-child(2) {
+    grid-area: c2;
+}
+
+.card2:nth-child(3) {
+    grid-area: c3;
+}
+
+.card2:nth-child(4) {
+    grid-area: c4;
+}
+
+@media (max-width: 925px) {
+    .main {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(1, 200px);
+    }
+
+    .card2 {
+        grid-area: initial;
+    }
+}
+
+.mainp2m2 {
+ 
+    position: relative;
+    min-height: 100vh;
+    top: 0;
+    bottom: 0;
+    left: 78px;
+    width: calc(100% - 70px);
+    transition: all 0.5s ease;
+    z-index: 2;
+    margin: 0;
+  
+    padding: 0px 0px 0px 0px;                               
+    
+    
+    grid-area: main;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: 
+    "c1"
+    
+    
+    ;
+    gap: 10px;
+  
+}
+
+.card{
+  background-color: rgba(234, 237, 245, 0.88) !important; 
+   margin-top: 5px;
+   border-radius: 10px; 
+   position: relative;
+   overflow: hidden;    
+}
+
+/* CSS */
+#arrow2 {
+  align-items: center;
+  background: #f5f5fa;
+  margin-top: 10px;
+  margin-left: 5%;
+  border: 0;
+  border-radius: 8px;
+  box-shadow: -10px -10px 30px 0 #fff,10px 10px 30px 0 #1d0dca17;
+  box-sizing: border-box;
+  color: #2a1f62;
+  cursor: pointer;
+  display: flex;
+  font-family: "Cascadia Code",Consolas,Monaco,"Andale Mono","Ubuntu Mono",monospace;
+  font-size: 1rem;
+  justify-content: center;
+  line-height: 1.5rem;
+  padding: 15px;
+  position: relative;
+  text-align: left;
+  transition: .2s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: pre;
+  width: max-content;
+  word-break: normal;
+  word-spacing: normal;
+}
+
+#arrow2:hover {
+  background: #f8f8ff;
+  box-shadow: -15px -15px 30px 0 #fff, 15px 15px 30px 0 #1d0dca17;
+}
+
+@media (min-width: 768px) {
+  #arrow {
+    padding: 15px;
+  }
+}
+
+#char {
+  position: absolute;
+  top: 10px;
+  left: 50px;
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  line-height: 1.5;
+  z-index: 1000;
+  /* Ensure it's above the map */
+  transition: background-color 0.3s ease; /* Add transition for smooth effect */
+}
+
+#char:hover {
+  background-color: rgba(255, 255, 255, 0.7); /* Set the desired transparent color on hover */
+}
+
+.card2p2 {
+  background-color: rgba(234, 237, 245, 0.88) !important; 
+  margin-top: 5px;
+  border-radius: 10px; 
+  position: relative;
+  overflow: hidden;    
+  height: 600px !important;
+  max-width: 100%;
+}
+
+#char2 {
+  position: absolute;
+  top: 120px;
+  left: 50px;
+  background-color: #fcadb0;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  line-height: 1.5;
+  z-index: 1000;
+  width: 500px;
+  /* Ensure it's above the map */
+  transition: background-color 0.3s ease; /* Add transition for smooth effect */
+}
+
+#char2:hover {
+  background-color: rgba(252, 173, 176, 0.80); /* Set the desired transparent color on hover */
+}
+
+h6 {
+  font-style: italic;
+}
 
 .button-17 {
   align-items: center;
@@ -554,4 +793,295 @@ a {
     padding: 15px;
   }
 }
+
+
+
+#legend {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  line-height: 1.5;
+  z-index: 1000;
+  /* Ensure it's above the map */
+  transition: background-color 0.3s ease; /* Add transition for smooth effect */
+}
+
+#legend:hover {
+  background-color: rgba(255, 255, 255, 0.7); /* Set the desired transparent color on hover */
+}
+
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.legend-color {
+  width: 6px;
+  height: 6px;
+  margin-right: 5px;
+  border: 1px solid #000;
+  border-radius: 50%;
+}
+
+.analysis-section {
+  margin-top: 20px;
+}
+
+#map-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  width: 80%;
+  /* Adjust as needed */
+  margin: auto !important;
+  display: block;
+}
+
+#map-container iframe {
+  width: 70%;
+  /* Adjust the width as needed */
+  height: 50%;
+  /* Adjust height as needed */
+  border: none;
+  /* Optional, removes the border */
+}
         
+#data-container2 {
+  background-color: #a5cce6;
+  width: 100%;
+  border-collapse: collapse; /* Combine borders for better responsiveness */
+  margin-bottom: 20px; /* Optional: Add spacing below the table */
+}
+
+
+#data-table {
+  height: 300px !important;
+  width: 100%;
+      border-collapse: collapse; /* Combine borders for better responsiveness */
+      margin-bottom: 20px; /* Optional: Add spacing below the table */
+   
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse; /* Combine borders for better responsiveness */
+  margin-bottom: 20px; /* Optional: Add spacing below the table */
+}
+
+/*Others tab*/
+.main {
+  position: relative;
+  min-height: 100vh;
+  top: 0;
+  bottom: 0;
+  left: 78px;
+  width: calc(100% - 70px);
+  transition: all 0.5s ease;
+  z-index: 2;
+  
+
+  padding: 25px 25px 25px 25px;                               
+  
+  
+  grid-area: main;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 40px 1fr;
+  grid-template-areas: 
+  "c1 c1 c2"
+  "c1 c1 c2"
+  "c3 c3 c2"
+  
+  ;
+  gap: 20px;
+}
+.cont {
+  max-width: 800px;
+  background: #fff;
+  width: 800px;
+  height: 500px;
+  padding: 25px 40px 10px 40px;
+  border-radius: 10px; 
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);;
+   overflow: hidden;    
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+}
+
+.cont .text {
+  text-align: center;
+  font-size: 41px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  background: white;
+ 
+}
+
+form {
+  max-width: 400px; /* Adjust the max-width as needed */
+  margin: 0 auto; /* Center the form horizontally */
+  padding: 20px; /* Add padding for spacing */
+}
+
+label {
+  display: block;
+  margin-bottom: 10px; /* Add spacing below each label */
+}
+
+input,
+button {
+  width: 100%;
+  margin-bottom: 15px; /* Add spacing below each input and button */
+  padding: 10px; /* Add padding for better appearance */
+  box-sizing: border-box; /* Include padding and border in element's total width and height */
+  margin-bottom: 15px !important;
+}
+
+button {
+  background-color: #fcadb0;
+  color: white;
+  cursor: pointer;
+}
+
+input[type="submit"] {
+  background-color: #008CBA;
+}
+
+
+/*project 3 */
+
+.main3 {
+  position: relative;
+    min-height: 100vh;
+    top: 0;
+    bottom: 0;
+    left: 78px;
+    width: calc(100% - 70px);
+    transition: all 0.5s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  margin-bottom: 60px; /* Adjust based on button height */
+}
+
+.cardp3 {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 800px;
+  transition: transform 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center horizontally */
+  justify-content: center; /* Center vertically */
+  
+}
+
+.cardp3:hover {
+  transform: scale(1.02);
+}
+
+.cardp3 h1 {
+  font-size: 18px;
+  margin: 15px 0;
+  color: #784343;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+}
+
+.cardp3e {
+  padding: 10px;
+  background-color: #f8f8f8;
+}
+
+.narration p {
+  font-size: 14px;
+  color: #555;
+  margin: 0;
+}
+
+#nextButton {
+  position: relative;
+  bottom: 20px;
+  left: 90%;
+  transform: translateX(-50%);
+  background-color: #3498db;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  width: 250px;
+}
+
+#nextButton:hover {
+  background-color: #2980b9;
+}
+
+.card3p3 {
+  background-color: rgba(234, 237, 245, 0.88) !important; 
+  margin-top: 5px;
+  border-radius: 10px; 
+  position: fixed;
+  overflow: hidden;    
+  height: 600px !important;
+  max-width: 100%;
+}
+
+#arrow3 {
+  bottom: 50px;
+  left: 90%;
+  background: #f5f5fa;
+  margin-top: 10px;
+  margin-left: 5%;
+  border: 0;
+  border-radius: 8px;
+  box-shadow: -10px -10px 30px 0 #fff,10px 10px 30px 0 #1d0dca17;
+  box-sizing: border-box;
+  color: #2a1f62;
+  cursor: pointer;
+  display: flex;
+  font-family: "Cascadia Code",Consolas,Monaco,"Andale Mono","Ubuntu Mono",monospace;
+  font-size: 1rem;
+  justify-content: center;
+  line-height: 1.5rem;
+  padding: 15px;
+  position:fixed;
+  text-align: left;
+  transition: .2s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: pre;
+  width: max-content;
+  word-break: normal;
+  word-spacing: normal;
+}
+
+#arrow2:hover {
+  background: #f8f8ff;
+  box-shadow: -15px -15px 30px 0 #fff, 15px 15px 30px 0 #1d0dca17;
+}
+
+@media (min-width: 768px) {
+  #arrow {
+    padding: 15px;
+  }
+}

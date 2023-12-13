@@ -154,11 +154,6 @@ def project1(request):
         'deaths_data': deaths_data
         })
 
-def project2(request):
-    return render(request, 'project2.html')
-
-<<<<<<< HEAD
-=======
 def color_for_aqi_category(category):
     colors = {
         "Good": "blue",
@@ -198,9 +193,41 @@ def project2(request):
     })
 
 
->>>>>>> dengueCase
 def project3(request):
     return render(request, 'project3.html')
 
 def others(request):
     return render(request, 'others.html')
+
+def project3(request):
+    dataset_link = database.child('Data').child('-NkjlSkSnkr9Jx14oX_G').child('dataset_link').get().val()
+    data = pd.read_csv(dataset_link)
+
+    dataset_link2 = database.child('Data').child('-NkjkUXGPc4ByPt6vYxr').child('dataset_link').get().val()
+    data2 = pd.read_csv(dataset_link2)
+    
+
+    data['date'] = pd.to_datetime(data['DATE'])
+    data['year'] = data['date'].dt.year
+
+    # Line Graph
+    # 1st dataset
+    unenployment_rate_per_year = data.groupby('year')['SLUEM1524ZSPHL'].sum()
+    year_labels = list(unenployment_rate_per_year.index)
+    unenployment_rate_data = list(unenployment_rate_per_year)
+
+    #2nd dataset
+    unemployment_in_thousands_per_year = data2.groupby('Year')['Value'].sum()
+    year_labels2 = list(unemployment_in_thousands_per_year.index)
+    unemployment_in_thousands_data = list(unemployment_in_thousands_per_year)
+
+    
+
+    return render(request, 'project3.html', {
+        'dataset_link': dataset_link,
+        'year_labels': year_labels,
+        'unenployment_rate_data': unenployment_rate_data,
+
+        'year_labels2': year_labels2,
+        'unemployment_in_thousands_data': unemployment_in_thousands_data
+    })
